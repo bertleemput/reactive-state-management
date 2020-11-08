@@ -1,0 +1,5 @@
+<input type="text" (input)="filterProduct($event)" />
+
+<app-product-catalog
+  [products]="filteredProducts$ | async"
+></app-product-catalog>

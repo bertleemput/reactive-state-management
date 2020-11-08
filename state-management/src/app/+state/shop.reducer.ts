@@ -2,6 +2,12 @@ import { requestProductsSuccess } from './shop.actions';
 import { Action, createReducer, on } from '@ngrx/store';
 import { Product } from './models';
 
+export const SHOP_FEATURE_KEY = 'shop';
+
+export interface AppState {
+  [SHOP_FEATURE_KEY]: ShopState;
+}
+
 export interface ShopState {
   products: { [id: number]: Product };
 }

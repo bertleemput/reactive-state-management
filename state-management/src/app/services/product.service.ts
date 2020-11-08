@@ -8,8 +8,11 @@ import { Product } from '../+state/models';
 export class ProductService {
   getProducts(): Observable<Product[]> {
     return of([
-      { id: 1, name: 'Product 1' },
-      { id: 2, name: 'Product 2' },
+      { id: 1, name: 'Bike' },
+      { id: 2, name: 'Chair' },
+      { id: 3, name: 'Table' },
+      { id: 4, name: 'Monitor' },
+      { id: 5, name: 'Laptop' },
     ]);
   }
 }
