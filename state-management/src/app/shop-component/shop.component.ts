@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { combineLatest, Observable, Subject } from 'rxjs';
-import { map, startWith, withLatestFrom } from 'rxjs/operators';
+import { debounceTime, map, startWith, withLatestFrom } from 'rxjs/operators';
 import { AppState } from '../+state/shop.reducer';
 import { selectPrices, selectProducts } from '../+state/shop.selectors';
 import { ProductWithPrice } from '../product-catalog-component/product-catalog.component';
@@ -32,7 +32,7 @@ export class ShopComponent implements OnInit {
 
     this.filteredProducts$ = combineLatest([
       products$,
-      this.filterSubject.pipe(startWith('')),
+      this.filterSubject.pipe(debounceTime(200), startWith('')),
     ]).pipe(
       map(([products, filter]) =>
         products.filter((product) =>
