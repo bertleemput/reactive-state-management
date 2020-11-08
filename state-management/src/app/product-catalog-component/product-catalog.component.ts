@@ -11,4 +11,8 @@ export type ProductWithPrice = Product & { price: number };
 export class ProductCatalogComponent {
   @Input()
   products: ProductWithPrice[];
+
+  trackById(_, product): number {
+    return product.id;
+  }
 }
