@@ -1,4 +1,4 @@
-import { requestProductsSuccess } from './shop.actions';
+import { priceUpdateReceived, requestProductsSuccess } from './shop.actions';
 import { Action, createReducer, on } from '@ngrx/store';
 import { Product } from './models';
 
@@ -10,10 +10,12 @@ export interface AppState {
 
 export interface ShopState {
   products: { [id: number]: Product };
+  prices: { [id: number]: number };
 }
 
 const initialState: ShopState = {
   products: {},
+  prices: {},
 };
 
 const reducer = createReducer(
@@ -22,6 +24,16 @@ const reducer = createReducer(
     const updatedState = { ...state };
     updatedState.products = products.reduce((aggregation, product) => {
       aggregation[product.id] = product;
+      return aggregation;
+    }, {});
+
+    return updatedState;
+  }),
+  on(priceUpdateReceived, (state, { priceUpdates }) => {
+    const updatedState = { ...state };
+
+    updatedState.prices = priceUpdates.reduce((aggregation, price) => {
+      aggregation[price.productId] = price.price;
       return aggregation;
     }, {});
 

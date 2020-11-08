@@ -14,3 +14,12 @@ export const requestProductsFailure = createAction(
   '[Shop] Request products failure',
   props<{ error: string }>()
 );
+
+export const startPriceUpdates = createAction(
+  '[Shop] Request product price updates'
+);
+
+export const priceUpdateReceived = createAction(
+  '[Shop] Product price update received',
+  props<{ priceUpdates: { productId: number; price: number }[] }>()
+);

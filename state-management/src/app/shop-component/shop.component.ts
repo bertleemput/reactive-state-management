@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { combineLatest, Observable, Subject } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
-import { Product } from '../+state/models';
+import { map, startWith, withLatestFrom } from 'rxjs/operators';
 import { AppState } from '../+state/shop.reducer';
-import { selectProducts } from '../+state/shop.selectors';
+import { selectPrices, selectProducts } from '../+state/shop.selectors';
+import { ProductWithPrice } from '../product-catalog-component/product-catalog.component';
 
 @Component({
   selector: 'app-shop',
@@ -13,12 +13,22 @@ import { selectProducts } from '../+state/shop.selectors';
 })
 export class ShopComponent implements OnInit {
   private filterSubject = new Subject<string>();
-  filteredProducts$: Observable<Product[]>;
+  filteredProducts$: Observable<ProductWithPrice[]>;
 
   constructor(private store: Store<AppState>) {}
 
   ngOnInit(): void {
-    const products$ = this.store.pipe(select(selectProducts));
+    const prices$ = this.store.pipe(select(selectPrices));
+
+    const products$ = this.store.pipe(select(selectProducts)).pipe(
+      withLatestFrom(prices$),
+      map(([products, prices]) => {
+        return products.map((product) => ({
+          ...product,
+          price: prices[product.id],
+        }));
+      })
+    );
 
     this.filteredProducts$ = combineLatest([
       products$,

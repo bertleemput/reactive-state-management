@@ -1,6 +1,8 @@
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import {
   initializeShop,
+  priceUpdateReceived,
+  startPriceUpdates,
   requestProducts,
   requestProductsFailure,
   requestProductsSuccess,
@@ -20,7 +22,7 @@ export class ShopEffects {
   initializeStore$ = createEffect(() =>
     this.actions$.pipe(
       ofType(initializeShop),
-      mergeMap(() => [requestProducts()])
+      mergeMap(() => [requestProducts(), startPriceUpdates()])
     )
   );
 
@@ -33,6 +35,17 @@ export class ShopEffects {
           catchError(() =>
             of(requestProductsFailure({ error: 'Some message' }))
           )
+        )
+      )
+    )
+  );
+
+  requestPriceUpdates$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(startPriceUpdates),
+      switchMap(() =>
+        this.productService.priceUpdate$.pipe(
+          map((priceUpdates) => priceUpdateReceived({ priceUpdates }))
         )
       )
     )

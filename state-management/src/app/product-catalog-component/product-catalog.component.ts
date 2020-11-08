@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Product } from '../+state/models';
 
+export type ProductWithPrice = Product & { price: number };
+
 @Component({
   selector: 'app-product-catalog',
   templateUrl: './product-catalog.component.html',
@@ -8,5 +10,5 @@ import { Product } from '../+state/models';
 })
 export class ProductCatalogComponent {
   @Input()
-  products: Product[];
+  products: ProductWithPrice[];
 }

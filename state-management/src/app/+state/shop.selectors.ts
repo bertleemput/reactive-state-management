@@ -9,3 +9,8 @@ export const selectProducts = createSelector(
   selectShopFeature,
   (shopState: ShopState) => Object.values(shopState.products)
 );
+
+export const selectPrices = createSelector(
+  selectShopFeature,
+  (shopState: ShopState) => shopState.prices
+);
