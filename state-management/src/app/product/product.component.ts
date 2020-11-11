@@ -1,4 +1,4 @@
-import { ProductWithPrice } from './../product-catalog-component/product-catalog.component';
+import { ExtendedProduct } from './../product-catalog-component/product-catalog.component';
 
 import { Component, Input } from '@angular/core';
 
@@ -9,5 +9,5 @@ import { Component, Input } from '@angular/core';
 })
 export class ProductComponent {
   @Input()
-  product: ProductWithPrice;
+  product: ExtendedProduct;
 }

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of, timer } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Product } from '../+state/models';
+import { roundTwoDecimals } from '../helper';
 
 @Injectable({
   providedIn: 'root',
@@ -41,10 +42,6 @@ export class ProductService {
 
   private genPrice(price): number {
     const newPrice = (0.75 + 0.25 * Math.random()) * price;
-    return this.roundTwoDecimals(newPrice);
-  }
-
-  private roundTwoDecimals(value: number): number {
-    return Math.round((value + Number.EPSILON) * 100) / 100;
+    return roundTwoDecimals(newPrice);
   }
 }

@@ -33,13 +33,31 @@
   }
 }
 
-.price {
-  font-size: 20px;
-  color: #3484cc;
-}
-
 .name {
   font-size: 16px;
   font-weight: bold;
   color: #111e31;
+}
+
+.pricing {
+  display: flex;
+  align-items: center;
+
+  .price {
+    font-size: 20px;
+    color: #3484cc;
+  }
+
+  .delta {
+    margin-left: 20px;
+    font-size: 12px;
+
+    &.increase {
+      color: red;
+    }
+
+    &.decrease {
+      color: green;
+    }
+  }
 }
