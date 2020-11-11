@@ -12,7 +12,13 @@ import { ProductWithPrice } from '../product-catalog-component/product-catalog.c
   styleUrls: ['./shop.component.scss'],
 })
 export class ShopComponent implements OnInit {
+  private collator = new Intl.Collator(undefined, {
+    numeric: true,
+    sensitivity: 'base',
+  });
   private filterSubject = new Subject<string>();
+  private sortSubject = new Subject<string>();
+
   filteredProducts$: Observable<ProductWithPrice[]>;
 
   constructor(private store: Store<AppState>) {}
@@ -32,18 +38,38 @@ export class ShopComponent implements OnInit {
 
     this.filteredProducts$ = combineLatest([
       products$,
-      this.filterSubject.pipe(debounceTime(200), startWith('')),
+      this.filterSubject.pipe(debounceTime(300), startWith('')),
+      this.sortSubject.pipe(startWith('')),
     ]).pipe(
-      map(([products, filter]) =>
-        products.filter((product) =>
+      map(([products, filter, sortCriteria]) => {
+        const filteredProducts = products.filter((product) =>
           product.name.toLowerCase().includes(filter.toLowerCase())
-        )
-      )
+        );
+
+        filteredProducts.sort((a, b) => {
+          if (sortCriteria === 'price') {
+            return a.price < b.price ? -1 : 1;
+          }
+
+          if (sortCriteria === 'name') {
+            return this.collator.compare(a.name, b.name);
+          }
+
+          return 0;
+        });
+
+        return filteredProducts;
+      })
     );
   }
 
   filterProduct(event: InputEvent): void {
     const filterText = (event.target as HTMLInputElement).value;
     this.filterSubject.next(filterText);
+  }
+
+  sort(event: InputEvent): void {
+    const sortCriteria = (event.target as HTMLSelectElement).value;
+    this.sortSubject.next(sortCriteria);
   }
 }

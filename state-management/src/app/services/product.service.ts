@@ -15,17 +15,27 @@ export class ProductService {
         { productId: 3, price: this.genPrice(150) },
         { productId: 4, price: this.genPrice(350) },
         { productId: 5, price: this.genPrice(1278) },
+        { productId: 6, price: this.genPrice(500) },
       ];
     })
   );
 
   getProducts(): Observable<Product[]> {
     return of([
-      { id: 1, name: 'Bike' },
-      { id: 2, name: 'Chair' },
-      { id: 3, name: 'Table' },
-      { id: 4, name: 'Monitor' },
-      { id: 5, name: 'Laptop' },
+      { id: 1, name: 'PC', imageLocation: '/assets/images/pc.jpg' },
+      { id: 2, name: 'Mouse', imageLocation: '/assets/images/mouse.jpg' },
+      {
+        id: 3,
+        name: 'Keyboard',
+        imageLocation: '/assets/images/keyboard.webp',
+      },
+      {
+        id: 4,
+        name: 'Monitor',
+        imageLocation: '/assets/images/lg-monitor.jpg',
+      },
+      { id: 5, name: 'Laptop', imageLocation: '/assets/images/dell.webp' },
+      { id: 6, name: 'Playstation', imageLocation: '/assets/images/ps5.png' },
     ]);
   }
 

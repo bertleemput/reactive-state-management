@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { ShopEffects } from './+state/shop.effects';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -11,10 +12,17 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { ProductCatalogComponent } from './product-catalog-component/product-catalog.component';
 import { ShopComponent } from './shop-component/shop.component';
+import { ProductComponent } from './product/product.component';
 
 @NgModule({
-  declarations: [AppComponent, ProductCatalogComponent, ShopComponent],
+  declarations: [
+    AppComponent,
+    ProductCatalogComponent,
+    ShopComponent,
+    ProductComponent,
+  ],
   imports: [
+    CommonModule,
     BrowserModule,
     AppRoutingModule,
     StoreModule.forRoot({}),

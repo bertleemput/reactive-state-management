@@ -1,5 +1,7 @@
-<p>Products</p>
-
-<div *ngFor="let product of products; trackBy: trackById">
-  {{ product.id }} {{ product.name }} {{ product.price }}
+<div class="products">
+  <app-product
+    *ngFor="let product of products; trackBy: trackById"
+    [product]="product"
+  >
+  </app-product>
 </div>

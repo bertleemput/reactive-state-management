@@ -1,4 +1,16 @@
-<input type="text" (input)="filterProduct($event)" />
+<h1>Products</h1>
+
+<div class="bar">
+  <div>Search: <input type="text" (input)="filterProduct($event)" /></div>
+  <div>
+    Sort:
+    <select (change)="sort($event)">
+      <option value=""></option>
+      <option value="price">Price</option>
+      <option value="name">Name</option>
+    </select>
+  </div>
+</div>
 
 <app-product-catalog
   [products]="filteredProducts$ | async"
