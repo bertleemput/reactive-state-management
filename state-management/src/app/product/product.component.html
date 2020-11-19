@@ -6,7 +6,7 @@
   {{ product.name }}
 </div>
 
-<div class="pricing">
+<div class="pricing" *ngIf="product.price">
   <span class="price">€{{ product.price?.toFixed(2) }}</span>
   <span
     [ngClass]="['delta', product.priceDelta > 0 ? 'increase' : 'decrease']"
