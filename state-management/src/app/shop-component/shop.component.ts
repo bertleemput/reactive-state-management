@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { combineLatest, Observable, Subject } from 'rxjs';
+import { combineLatest, Observable, of, Subject } from 'rxjs';
 import {
   debounceTime,
   map,
@@ -31,7 +31,7 @@ export class ShopComponent implements OnInit {
   constructor(private store: Store<AppState>) {}
 
   ngOnInit(): void {
-    const products$ = this.store.pipe(select(selectProducts));
+    const products$ = of([]);
 
     this.filteredProducts$ = products$;
   }
