@@ -31,7 +31,7 @@ export class ShopComponent implements OnInit {
   constructor(private store: Store<AppState>) {}
 
   ngOnInit(): void {
-    this.filteredProducts$ = of([]);
+    this.filteredProducts$ = this.store.pipe(select(selectProducts));
   }
 
   filter(event: InputEvent): void {
