@@ -33,12 +33,29 @@ export class ShopComponent implements OnInit {
   ngOnInit(): void {
     const prices$ = this.store.pipe(select(selectPrices));
 
+    const priceDelta$ = prices$.pipe(
+      pairwise(),
+      map(([oldPrices, newPrices]) =>
+        Object.keys(newPrices).reduce((aggregation, key) => {
+          const newPrice = newPrices[key];
+          const oldPrice = oldPrices[key];
+
+          if (oldPrice !== undefined && newPrice !== undefined) {
+            aggregation[key] = roundTwoDecimals(newPrice - oldPrice);
+          }
+
+          return aggregation;
+        }, {} as { [id: string]: number })
+      )
+    );
+
     const products$ = this.store.pipe(select(selectProducts)).pipe(
-      withLatestFrom(prices$),
-      map(([products, prices]) => {
+      withLatestFrom(prices$, priceDelta$),
+      map(([products, prices, priceDelta]) => {
         return products.map((product) => ({
           ...product,
           price: prices[product.id],
+          priceDelta: priceDelta[product.id],
         }));
       })
     );
