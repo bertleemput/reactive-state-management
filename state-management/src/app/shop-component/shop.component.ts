@@ -45,12 +45,25 @@ export class ShopComponent implements OnInit {
 
     this.filteredProducts$ = combineLatest([
       products$,
-      this.filterSubject.pipe(debounceTime(500), startWith('')),
+      this.filterSubject.pipe(debounceTime(300), startWith('')),
+      this.sortSubject.pipe(startWith('')),
     ]).pipe(
-      map(([products, filter]) => {
+      map(([products, filter, sortCriteria]) => {
         const filteredProducts = products.filter((product) =>
           product.name.toLowerCase().includes(filter.toLowerCase())
         );
+
+        filteredProducts.sort((a, b) => {
+          if (sortCriteria === 'price') {
+            return a.price < b.price ? -1 : 1;
+          }
+
+          if (sortCriteria === 'name') {
+            return this.collator.compare(a.name, b.name);
+          }
+
+          return 0;
+        });
 
         return filteredProducts;
       })
