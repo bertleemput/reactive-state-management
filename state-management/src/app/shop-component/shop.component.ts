@@ -31,7 +31,17 @@ export class ShopComponent implements OnInit {
   constructor(private store: Store<AppState>) {}
 
   ngOnInit(): void {
-    const products$ = this.store.pipe(select(selectProducts));
+    const prices$ = this.store.pipe(select(selectPrices));
+
+    const products$ = this.store.pipe(select(selectProducts)).pipe(
+      withLatestFrom(prices$),
+      map(([products, prices]) => {
+        return products.map((product) => ({
+          ...product,
+          price: prices[product.id],
+        }));
+      })
+    );
 
     this.filteredProducts$ = combineLatest([
       products$,
