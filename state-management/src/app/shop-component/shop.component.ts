@@ -35,7 +35,7 @@ export class ShopComponent implements OnInit {
 
     this.filteredProducts$ = combineLatest([
       products$,
-      this.filterSubject.pipe(startWith('')),
+      this.filterSubject.pipe(debounceTime(500), startWith('')),
     ]).pipe(
       map(([products, filter]) => {
         const filteredProducts = products.filter((product) =>
